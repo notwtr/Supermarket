@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: rgb(240, 254, 255);
+      }
+
+      .login-card {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: start;
+        background-color: rgb(162, 171, 255);
+        color: black;
+        width: 25%;
+        height: 60%;
+        padding: 2rem;
+        border-radius: 2rem;
+        color: white;
+        font-size: 1.5rem;
+      }
+
+      input {
+        border-radius: 2rem;
+        border: none;
+        width: 80%;
+        height: 20%;
+        margin: 1rem;
+        height: 2rem;
+        align-items: center;
+        background-color: rgb(202, 215, 255);
+        padding: 10px;
+      }
+
+      .login-button {
+        width: 50%;
+        align-self: center;
+        background-color: rgb(139, 90, 255);
+        color: white;
+        padding: 5px;
+      }
+
+      p {
+        margin-left: 1rem;
+      }
+
+      .title {
+        justify-content: start;
+        align-self: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="login-card">
+      <h1 class="title">Login</h1>
+      <p>Nome:</p>
+      <input type="text" id="nome" aria-label="a" />
+      <p>Senha:</p>
+      <input type="password" id="senha" aria-label="a" />
+      <input
+        title="Fazer login"
+        value="Entrar"
+        type="button"
+        onclick="loginSystem.login()"
+        class="login-button"
+      />
+    </div>
+    <script>
+      class Login {
+        constructor(userInputId, passwordInputId) {
+          this.userInput = document.getElementById(userInputId);
+          this.passwordInput = document.getElementById(passwordInputId);
+        }
+
+        async fetchUsers() {
+          const response = await fetch("user.json");
+          return await response.json();
+        }
+
+        validateUser(users, nome, senha) {
+          return users.some(
+            (user) => user.nome === nome && user.senha === senha,
+          );
+        }
+
+        async login() {
+          const nome = this.userInput.value;
+          const senha = this.passwordInput.value;
+
+          const users = await this.fetchUsers();
+
+          const isValid = this.validateUser(users, nome, senha);
+
+          if (isValid) {
+            console.log("sucesso");
+            window.location.href = "/index.html";
+          } else {
+            alert("Erro ao fazer login");
+          }
+        }
+      }
+
+      // cria a instância
+      const loginSystem = new Login("nome", "senha");
+    </script>   
+  </body>
+</html>
