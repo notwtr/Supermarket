@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Componentes da sala B22</title>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        background-color: #c40066;
+        min-height: 100vh;
+        align-items: start; /* ← evita centralização vertical que corta o conteúdo */
+      }
+
+      .secondary-body {
+        margin-top: 5%;
+        border-radius: 30px;
+        width: 75%;
+        padding: 5%;
+        background-color: white;
+        display: flex;
+        background-color: #a80258;
+        justify-content: center;
+      }
+
+      #info-container {
+        width: 80%;
+        border-radius: 30px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        padding: 5%;
+        gap: 50px;
+        grid-template-rows: auto;
+        justify-content: center;
+        background-color: white;
+
+        align-items: start;
+
+        box-shadow: 30px 30px 0 #E34749;
+      }
+
+      .item-img-container{
+        width: 250px;
+        height: 250px;
+        border-radius: 5px;
+
+        overflow: hidden;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .item-img{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .product-title{
+        min-height: 100px;
+      }
+
+      .preco-button{
+        background-color: #F4D30C;
+        border: 1px solid black;
+        border-radius: 5px;
+        box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.493);
+
+        padding: 10px;
+        margin-left: auto;
+        margin-top: -20px;
+        margin-right: 20px;
+
+        transition: 0.3s ease;
+        cursor: pointer;
+      }
+
+      .preco-button:hover{
+        transform: scale(1.2);
+      }
+
+      .product{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        flex-direction: column;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="secondary-body">
+      <div id="info-container"></div>
+    </div>
+    <script>
+      class ProductList {
+        constructor(file, div) {
+          this.file = file;
+          this.div = div;
+        }
+
+        async fetchProducts() {
+          try {
+            const response = await fetch(this.file);
+            const data = await response.json();
+            return data;
+          } catch (error) {
+            console.error("Erro ao buscar os produtos: ", error);
+          }
+        }
+
+        async displayProducts() {
+          const products = await this.fetchProducts();
+          const infoContainer = document.getElementById(this.div);
+          products.map((item, index) => {
+            infoContainer.innerHTML += 
+            `<div class="product"><h1 class="product-title">${item.nome}</h1>
+              <div class="item-img-container"><img src='${item.img}' class="item-img"></div>
+              <div class="preco-button" onclick="productList.buy('${item.nome}')">R$${item.preco}</div>
+              </div>`;
+          });
+        }
+
+        buy(nome) {
+          alert("Você comprou " + nome);
+        }
+      }
+
+      const productList = new ProductList("b22.json", "info-container");
+      productList.displayProducts();
+    </script>
+  </body>
+</html>
