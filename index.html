@@ -1,75 +1,115 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-br">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Home</title>
-        <style>
-            body{
-                height: 100vh;
-                background-color: rgb(240, 254, 255);
-            }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: rgb(240, 254, 255);
+      }
 
-            .main{
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                flex-direction: column;
+      .login-card {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: start;
+        background-color: rgb(162, 171, 255);
+        color: black;
+        width: 25%;
+        height: 60%;
+        padding: 2rem;
+        border-radius: 2rem;
+        color: white;
+        font-size: 1.5rem;
+      }
 
-                height: 100vh;
-            }
+      input {
+        border-radius: 2rem;
+        border: none;
+        width: 80%;
+        height: 20%;
+        margin: 1rem;
+        height: 2rem;
+        align-items: center;
+        background-color: rgb(202, 215, 255);
+        padding: 10px;
+      }
 
-            .nav-button{
-                width: 7rem;
-                height: 2rem;
-                border-radius: 1rem;
-                background-color: #c40066;
-                color: white;
-                border: none;
-                cursor: pointer;
-            }
+      .login-button {
+        width: 50%;
+        align-self: center;
+        background-color: rgb(139, 90, 255);
+        color: white;
+        padding: 5px;
+      }
 
-            .nav-cell-container{
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                border: solid black 1px;
-                height: 15rem;
-                width: 20rem;
-                background-color: rgb(202, 215, 255);
-                border-radius: 0.5rem;
-                border: none;
-            }
+      p {
+        margin-left: 1rem;
+      }
 
-            .title{
-                margin-bottom: 15rem;
-            }
+      .title {
+        justify-content: start;
+        align-self: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="login-card">
+      <h1 class="title">Login</h1>
+      <p>Nome:</p>
+      <input type="text" id="nome" aria-label="a" />
+      <p>Senha:</p>
+      <input type="password" id="senha" aria-label="a" />
+      <input
+        title="Fazer login"
+        value="Entrar"
+        type="button"
+        onclick="loginSystem.login()"
+        class="login-button"
+      />
+    </div>
+    <script>
+      class Login {
+        constructor(userInputId, passwordInputId) {
+          this.userInput = document.getElementById(userInputId);
+          this.passwordInput = document.getElementById(passwordInputId);
+        }
 
-            .nav-cells{
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                gap: 5%;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="main">
-            <h1 class="title">Bem vindo!</h1>
-            <div class="nav-cells">
-            <div class="nav-cell-container">
-                <form action="shopping.html">
-                    <h2>Nossos produtos</h2>
-                    <input type="submit" id="" class="nav-button" value="Acessar">
-                </form>
-            </div>
-            <div class="nav-cell-container">
-                <form action="b22.html">
-                    <h2>Componentes da sala B22</h2>
-                    <input type="submit" id="" class="nav-button" value="Acessar">
-                </form>
-            </div>
-            </div>
-        </div>
-    </body>
+        async fetchUsers() {
+          const response = await fetch("user.json");
+          return await response.json();
+        }
+
+        validateUser(users, nome, senha) {
+          return users.some(
+            (user) => user.nome === nome && user.senha === senha,
+          );
+        }
+
+        async login() {
+          const nome = this.userInput.value;
+          const senha = this.passwordInput.value;
+
+          const users = await this.fetchUsers();
+
+          const isValid = this.validateUser(users, nome, senha);
+
+          if (isValid) {
+            console.log("sucesso");
+            window.location.href = "/index.html";
+          } else {
+            alert("Erro ao fazer login");
+          }
+        }
+      }
+
+      // cria a instância
+      const loginSystem = new Login("nome", "senha");
+    </script>   
+  </body>
 </html>
