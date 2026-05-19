@@ -88,9 +88,32 @@
 
         flex-direction: column;
       }
+
+      .btn{
+        width: 150px;
+        height: 60px;
+        border: none;
+        border-radius: 10px;
+        background-color: #E34749;
+        position: fixed;
+        left: 30px;
+        top: 30px;
+        opacity: 0.5;
+
+        transition: 0.3s ease;
+      }
+
+      .btn:hover{
+        transform: scale(1.1);
+        opacity: 1.0;
+        cursor: pointer;
+      }
     </style>
   </head>
   <body>
+    <form action="menu.html" method="get">
+      <button type="submit" class="btn">Voltar</button>
+    </form>
     <div class="secondary-body">
       <div id="info-container"></div>
     </div>
