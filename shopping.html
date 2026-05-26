@@ -120,9 +120,9 @@
     <script>
       let sales = parseInt(localStorage.getItem("sales"));
       if (localStorage.setItem("first-time", "true")) {
-        let sales = 0;
+        sales = 0;
       } else {
-        let sales = parseInt(localStorage.getItem("sales"));
+        sales = parseInt(localStorage.getItem("sales"));
       }
 
       localStorage.setItem("first-time", "false");
