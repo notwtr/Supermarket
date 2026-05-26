@@ -56,10 +56,31 @@
         justify-content: start;
         align-self: center;
       }
+
+      .info-i{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: white;
+        color: black;
+        width: 30px;
+        height: 30px;
+        opacity: 0.8;
+        border-radius: 50%;
+
+        transition: 0.3s ease;
+      }
+
+      .info-i:hover{
+        transform: scale(1.1);
+        opacity: 1;
+        cursor: pointer;
+      }
     </style>
   </head>
   <body>
     <div class="login-card">
+      <div class="info-i" onclick="explain()">i</div>
       <h1 class="title">Login</h1>
       <p>Nome:</p>
       <input type="text" id="nome" aria-label="a" />
@@ -74,6 +95,12 @@
       />
     </div>
     <script>
+      function explain(){
+        alert("Bem vindo! Faça login para acessar nossos produtos.")
+      }
+      if(localStorage.getItem("first-time" != "false")){
+        localStorage.setItem("first-time", "true");
+      }
       class Login {
         constructor(userInputId, passwordInputId) {
           this.userInput = document.getElementById(userInputId);

@@ -118,6 +118,14 @@
       <div id="info-container"></div>
     </div>
     <script>
+      let sales = parseInt(localStorage.getItem("sales"));
+      if (localStorage.getItem("first-time") != "false") {
+        let sales = 0;
+      } else {
+        let sales = parseInt(localStorage.getItem("sales"));
+      }
+
+      localStorage.setItem("first-time", "false");
       class ProductList {
         constructor(file, div) {
           this.file = file;
@@ -147,7 +155,9 @@
         }
 
         buy(nome) {
-          alert("Você comprou " + nome);
+          sales++;
+          localStorage.setItem("sales", sales)
+          alert("Você comprou " + nome + ". Você já fez um total de "+sales+" compras.");
         }
       }
 

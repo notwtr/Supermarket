@@ -37,10 +37,10 @@
 
         align-items: start;
 
-        box-shadow: 30px 30px 0 #E34749;
+        box-shadow: 30px 30px 0 #e34749;
       }
 
-      .item-img-container{
+      .item-img-container {
         width: 250px;
         height: 250px;
         border-radius: 5px;
@@ -52,18 +52,18 @@
         align-items: center;
       }
 
-      .item-img{
+      .item-img {
         width: 100%;
         height: 100%;
         object-fit: cover;
       }
 
-      .product-title{
+      .product-title {
         min-height: 100px;
       }
 
-      .preco-button{
-        background-color: #F4D30C;
+      .preco-button {
+        background-color: #f4d30c;
         border: 1px solid black;
         border-radius: 5px;
         box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.493);
@@ -77,11 +77,11 @@
         cursor: pointer;
       }
 
-      .preco-button:hover{
+      .preco-button:hover {
         transform: scale(1.2);
       }
 
-      .product{
+      .product {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -89,12 +89,12 @@
         flex-direction: column;
       }
 
-      .btn{
+      .btn {
         width: 150px;
         height: 60px;
         border: none;
         border-radius: 10px;
-        background-color: #E34749;
+        background-color: #e34749;
         position: fixed;
         left: 30px;
         top: 30px;
@@ -103,9 +103,9 @@
         transition: 0.3s ease;
       }
 
-      .btn:hover{
+      .btn:hover {
         transform: scale(1.1);
-        opacity: 1.0;
+        opacity: 1;
         cursor: pointer;
       }
     </style>
@@ -118,6 +118,15 @@
       <div id="info-container"></div>
     </div>
     <script>
+      let sales = parseInt(localStorage.getItem("sales"));
+      if (localStorage.setItem("first-time", "true")) {
+        let sales = 0;
+      } else {
+        let sales = parseInt(localStorage.getItem("sales"));
+      }
+
+      localStorage.setItem("first-time", "false");
+
       class ProductList {
         constructor(file, div) {
           this.file = file;
@@ -138,8 +147,7 @@
           const products = await this.fetchProducts();
           const infoContainer = document.getElementById(this.div);
           products.map((item, index) => {
-            infoContainer.innerHTML += 
-            `<div class="product"><h1 class="product-title">${item.nome}</h1>
+            infoContainer.innerHTML += `<div class="product"><h1 class="product-title">${item.nome}</h1>
               <div class="item-img-container"><img src='${item.img}' class="item-img"></div>
               <div class="preco-button" onclick="productList.buy('${item.nome}')">R$${item.preco}</div>
               </div>`;
@@ -147,7 +155,15 @@
         }
 
         buy(nome) {
-          alert("Você comprou " + nome);
+          sales++;
+          localStorage.setItem("sales", sales);
+          alert(
+            "Você comprou " +
+              nome +
+              ". Você já fez um total de " +
+              sales +
+              " compras.",
+          );
         }
       }
 
